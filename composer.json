@@ -20,7 +20,7 @@
             "NovotnyJ\\ThepayClient\\": "src/"
         },
 	    "classmap": [
-		    "src/SmartSelling/BillingClient/exceptions.php"
+		    "src/novotnyj/ThepayClient/exceptions.php"
 	    ]
     },
     "require": {

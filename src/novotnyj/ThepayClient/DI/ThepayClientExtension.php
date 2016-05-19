@@ -5,6 +5,7 @@ namespace NovotnyJ\ThepayClient\DI;
 use Nette\DI\CompilerExtension;
 use Nette\Utils\Validators;
 use NovotnyJ\ThepayClient\IThepayClient;
+use NovotnyJ\ThepayClient\ThepayClient;
 
 class ThepayClientExtension extends CompilerExtension
 {
@@ -34,7 +35,7 @@ class ThepayClientExtension extends CompilerExtension
 		if (!empty($config['merchantId']) && !empty($config['accountId']) && ! empty($config['secret'])) {
 			$container->addDefinition($this->prefix('thepayClient'))
 				->setClass(IThepayClient::class)
-				->setFactory(IThepayClient::class, [
+				->setFactory(ThepayClient::class, [
 					'merchantId' => $config['merchantId'],
 					'accountId' => $config['accountId'],
 					'secret' => $config['secret'],

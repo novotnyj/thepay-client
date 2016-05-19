@@ -54,11 +54,11 @@ class PaymentRequest
 	public function toArray()
 	{
 		return [
-			'methodId' => $this->methodId,
 			'value' => $this->value,
-			'returnUrl' => $this->returnUrl,
-			'merchantData' => $this->merchantData,
 			'description' => $this->description,
+			'merchantData' => $this->merchantData,
+			'returnUrl' => $this->returnUrl,
+			'methodId' => $this->methodId,
 			'customerData' => $this->customerData,
 		];
 	}

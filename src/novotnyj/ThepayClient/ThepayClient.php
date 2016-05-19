@@ -99,7 +99,7 @@ class ThepayClient implements IThepayClient
 	public function getPaymentUrl(PaymentRequest $payment)
 	{
 		$params = $this->buildQuery($payment);
-		$params['secret'] = $this->createPaymentSignature($payment);
+		$params['signature'] = $this->createPaymentSignature($payment);
 		return $this->gateUrl . '?' . http_build_query($params);
 	}
 
@@ -120,10 +120,12 @@ class ThepayClient implements IThepayClient
 	private function buildQuery(PaymentRequest $payment)
 	{
 		$valueKeyPairs = [];
+		$valueKeyPairs['merchantId'] = $this->merchantId;
+		$valueKeyPairs['accountId'] = $this->accountId;
 
 		foreach ($payment->toArray() as $key => $value) {
 			if ($value !== null) {
-				$valueKeyPairs[] = $key . '=' . $value;
+				$valueKeyPairs[$key] = $value;
 			}
 		}
 
@@ -137,9 +139,14 @@ class ThepayClient implements IThepayClient
 	private function createPaymentSignature(PaymentRequest $payment)
 	{
 		$query = $this->buildQuery($payment);
-		$query['password'] = $this->secret;
 
-		return md5(implode('&', $query));
+		$str = "";
+		foreach ($query as $key => $val) {
+			$str .= $key . "=" . $val . "&";
+		}
+		$str .= "password=".$this->secret;
+
+		return md5($str);
 	}
 
 	/**

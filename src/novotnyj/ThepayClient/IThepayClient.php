@@ -16,4 +16,11 @@ interface IThepayClient
 	 */
 	public function getPaymentUrl(PaymentRequest $payment);
 
+	/**
+	 * @param PaymentMethod $method
+	 * @param string $size
+	 * @return string
+	 */
+	public function getMethodLogoUrl(PaymentMethod $method, $size = '86x86');
+
 }

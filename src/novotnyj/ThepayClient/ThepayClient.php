@@ -104,6 +104,16 @@ class ThepayClient implements IThepayClient
 	}
 
 	/**
+	 * @param PaymentMethod $method
+	 * @param string $size
+	 * @return string
+	 */
+	public function getMethodLogoUrl(PaymentMethod $method, $size = '86x86')
+	{
+		return 'https://www.thepay.cz/gate/images/logos/public/tight/' . $size . '/' . $method->getId() . '.png';
+	}
+
+	/**
 	 * @param PaymentRequest $payment
 	 * @return string[] [key, value]
 	 */
@@ -122,6 +132,7 @@ class ThepayClient implements IThepayClient
 
 	/**
 	 * @param PaymentRequest $payment
+	 * @return string
 	 */
 	private function createPaymentSignature(PaymentRequest $payment)
 	{

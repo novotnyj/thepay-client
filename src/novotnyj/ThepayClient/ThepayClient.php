@@ -110,7 +110,7 @@ class ThepayClient implements IThepayClient
 	 */
 	public function getMethodLogoUrl(PaymentMethod $method, $size = '86x86')
 	{
-		return 'https://www.thepay.cz/gate/images/logos/public/tight/' . $size . '/' . $method->getId() . '.png';
+		return 'https://www.thepay.cz/gate/images/logos/public/' . $size . '/' . $method->getId() . '.png';
 	}
 
 	/**

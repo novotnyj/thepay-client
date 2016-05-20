@@ -114,6 +114,40 @@ class ThepayClient implements IThepayClient
 	}
 
 	/**
+	 * @param PaymentResponse $paymentResponse
+	 * @return bool
+	 */
+	public function verifyPayment(PaymentResponse $paymentResponse)
+	{
+		if ($paymentResponse->getMerchantId() !== $this->merchantId ||
+			$paymentResponse->getAccountId() !== $this->accountId) {
+			return false;
+		}
+
+		$out = array();
+		$out[] = "merchantId=".$this->merchantId;
+		$out[] = "accountId=".$this->accountId;
+		$required = [
+			"value", "currency", "methodId", "description", "merchantData",
+			"status", "paymentId", "ipRating", "isOffline", "needConfirm",
+		];
+		$optional = [
+			"isConfirm", "variableSymbol", "specificSymbol",
+			"deposit", "isRecurring", "customerAccountNumber",
+			"customerAccountName",
+		];
+		$query = $paymentResponse->getQueryData();
+		foreach (array_merge($required, $optional) as $arg) {
+			if (array_key_exists($arg, $query)) {
+				$out[] = $arg."=".$query[$arg];
+			}
+		}
+		$out[] = "password=".$this->secret;
+		$signature = md5(implode("&", $out));
+		return $signature === $paymentResponse->getSignature();
+	}
+
+	/**
 	 * @param PaymentRequest $payment
 	 * @return string[] [key, value]
 	 */

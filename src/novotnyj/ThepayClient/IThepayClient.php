@@ -23,4 +23,10 @@ interface IThepayClient
 	 */
 	public function getMethodLogoUrl(PaymentMethod $method, $size = '86x86');
 
+	/**
+	 * @param PaymentResponse $paymentResponse
+	 * @return bool
+	 */
+	public function verifyPayment(PaymentResponse $paymentResponse);
+
 }

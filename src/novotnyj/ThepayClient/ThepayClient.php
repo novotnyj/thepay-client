@@ -119,8 +119,8 @@ class ThepayClient implements IThepayClient
 	 */
 	public function verifyPayment(PaymentResponse $paymentResponse)
 	{
-		if ($paymentResponse->getMerchantId() !== $this->merchantId ||
-			$paymentResponse->getAccountId() !== $this->accountId) {
+		if ($paymentResponse->getMerchantId() !== (int) $this->merchantId ||
+			$paymentResponse->getAccountId() !== (int) $this->accountId) {
 			return false;
 		}
 

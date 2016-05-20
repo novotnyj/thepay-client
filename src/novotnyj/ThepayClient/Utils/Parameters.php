@@ -39,7 +39,7 @@ class Parameters
 		if ($required && !array_key_exists($name, $this->data)) {
 			throw new InvalidArgumentException($name . ' not found');
 		}
-		if (Validators::is('string', $this->data[$name])) {
+		if (Validators::is($this->data[$name], 'string')) {
 			return $this->data[$name];
 		} else {
 			throw new \InvalidArgumentException($name . ' is not valid string.');

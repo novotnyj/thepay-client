@@ -60,8 +60,15 @@ class PaymentResponse
 	/**
 	 * @return bool
 	 */
-	public function isOk() {
+	public function isPaid() {
 		return $this->status === 2;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isCancelled() {
+		return $this->status === 3;
 	}
 
 	/**

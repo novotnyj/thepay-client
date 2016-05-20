@@ -33,6 +33,11 @@ class PaymentResponse
 	private $paymentId;
 
 	/**
+	 * @var string|null
+	 */
+	private $merchantData;
+
+		/**
 	 * @var array
 	 */
 	private $data;
@@ -47,6 +52,9 @@ class PaymentResponse
 		$this->status = $parameters->getInt('status');
 		$this->signature = $parameters->getString('signature');
 		$this->paymentId = $parameters->getInt('paymentId');
+		if (array_key_exists('merchantData', $data)) {
+			$this->merchantData = $parameters->getString('merchantData');
+		}
 	}
 
 	/**
@@ -101,6 +109,14 @@ class PaymentResponse
 	public function getPaymentId()
 	{
 		return $this->paymentId;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getMerchantData()
+	{
+		return $this->merchantData;
 	}
 
 	/**

@@ -40,6 +40,11 @@ class ThepayClient implements IThepayClient
 	 */
 	private $apiKey;
 
+	/**
+	 * @var PaymentMethod[]
+	 */
+	private $methods;
+
 	public function __construct($merchantId, $accountId, $secret, $apiKey, $gateUrl)
 	{
 		$this->merchantId = $merchantId;
@@ -56,6 +61,10 @@ class ThepayClient implements IThepayClient
 	 */
 	public function getPaymentMethods()
 	{
+		if (!empty($this->methods)) {
+			return $this->methods;
+		}
+
 		$data = [
 			'merchantId' => $this->merchantId,
 			'accountId' => $this->accountId,
@@ -88,6 +97,8 @@ class ThepayClient implements IThepayClient
 				$result[] = new PaymentMethod($method);
 			}
 		}
+
+		$this->methods = $result;
 
 		return $result;
 	}

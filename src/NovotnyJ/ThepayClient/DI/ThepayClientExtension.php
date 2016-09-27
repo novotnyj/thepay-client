@@ -26,8 +26,8 @@ class ThepayClientExtension extends CompilerExtension
 		$container = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
 
-		Validators::assertField($config, 'merchantId', 'string');
-		Validators::assertField($config, 'accountId', 'string');
+		Validators::assertField($config, 'merchantId', 'int');
+		Validators::assertField($config, 'accountId', 'int');
 		Validators::assertField($config, 'secret', 'string');
 		Validators::assertField($config, 'gateUrl', 'string');
 		Validators::assertField($config, 'apiKey', 'string');

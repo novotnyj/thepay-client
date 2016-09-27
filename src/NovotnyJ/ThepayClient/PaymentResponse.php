@@ -79,6 +79,13 @@ class PaymentResponse
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isError() {
+		return $this->status === 4;
+	}
+
+	/**
 	 * @return mixed
 	 */
 	public function getSignature()

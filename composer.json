@@ -20,7 +20,7 @@
             "NovotnyJ\\ThepayClient\\": "src/"
         },
 	    "classmap": [
-		    "src/novotnyj/ThepayClient/exceptions.php"
+		    "src/ThepayClient/NovotnyJ/exceptions.php"
 	    ]
     },
     "require": {

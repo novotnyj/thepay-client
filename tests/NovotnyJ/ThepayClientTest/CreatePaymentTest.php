@@ -42,10 +42,10 @@ class CreatePaymentTest extends TestCase
 		$payment = new PaymentRequest(
 			$method->getId(),
 			10,
-			'http://test.com/',
-			'test data',
-			'test description'
+			'http://test.com/'
 		);
+		$payment->setMerchantData('test data');
+		$payment->setDescription('test description');
 
 		$url = $this->thepayClient->getPaymentUrl($payment);
 

@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
 use NovotnyJ\ThepayClient\Exceptions\InvalidResponseException;
+use Tracy\Debugger;
 
 class ThepayClient implements IThepayClient
 {
@@ -189,6 +190,7 @@ class ThepayClient implements IThepayClient
 		foreach ($query as $key => $val) {
 			$str .= $key . "=" . $val . "&";
 		}
+
 		$str .= "password=".$this->secret;
 
 		return md5($str);
@@ -208,6 +210,7 @@ class ThepayClient implements IThepayClient
 
 		$string = implode('&', $valueKeyPairs);
 		$string .= '&password=' . $this->apiKey;
+
 		return hash('sha256', $string);
 	}
 

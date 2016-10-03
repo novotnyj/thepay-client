@@ -14,8 +14,8 @@ class ThepayClientExtension extends CompilerExtension
 	 * @var array
 	 */
 	public $defaults = [
-		'merchantId' => '1',
-		'accountId' => '1',
+		'merchantId' => 1,
+		'accountId' => 1,
 		'secret' => 'my$up3rsecr3tp4$$word',
 		'apiKey' => 'my$up3rsecr3tp4$$word',
 		'gateUrl' => 'https://www.thepay.cz/demo-gate',

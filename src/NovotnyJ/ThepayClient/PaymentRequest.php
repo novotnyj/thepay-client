@@ -35,19 +35,50 @@ class PaymentRequest
 	 */
 	private $customerData;
 
+	/**
+	 * @var null|string
+	 */
+	private $backToEshopUrl = null;
+
 	public function __construct(
 		$methodId,
 		$value,
-		$returnUrl,
-		$merchantData,
-		$description = null,
-		$customerData = null)
-	{
+		$returnUrl
+	) {
 		$this->methodId = $methodId;
 		$this->value = $value;
 		$this->returnUrl = $returnUrl;
+	}
+
+	/**
+	 * @param string $backToEshopUrl
+	 */
+	public function setBackToEshopUrl($backToEshopUrl)
+	{
+		$this->backToEshopUrl = $backToEshopUrl;
+	}
+
+	/**
+	 * @param string $merchantData
+	 */
+	public function setMerchantData($merchantData)
+	{
 		$this->merchantData = $merchantData;
+	}
+
+	/**
+	 * @param null|string $description
+	 */
+	public function setDescription($description)
+	{
 		$this->description = $description;
+	}
+
+	/**
+	 * @param null|string $customerData
+	 */
+	public function setCustomerData($customerData)
+	{
 		$this->customerData = $customerData;
 	}
 
@@ -58,6 +89,7 @@ class PaymentRequest
 			'description' => $this->description,
 			'merchantData' => $this->merchantData,
 			'returnUrl' => $this->returnUrl,
+			'backToEshopUrl' => $this->backToEshopUrl,
 			'methodId' => $this->methodId,
 			'customerData' => $this->customerData,
 		];

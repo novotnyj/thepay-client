@@ -37,6 +37,11 @@ class PaymentResponse
 	 */
 	private $merchantData;
 
+	/**
+	 * @var float
+	 */
+	private $value;
+
 		/**
 	 * @var array
 	 */
@@ -52,6 +57,7 @@ class PaymentResponse
 		$this->status = $parameters->getInt('status');
 		$this->signature = $parameters->getString('signature');
 		$this->paymentId = $parameters->getInt('paymentId');
+		$this->value = $parameters->getFloat('value');
 		if (array_key_exists('merchantData', $data)) {
 			$this->merchantData = $parameters->getString('merchantData');
 		}
@@ -143,6 +149,14 @@ class PaymentResponse
 	public function getQueryData()
 	{
 		return $this->data;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getValue()
+	{
+		return $this->value;
 	}
 
 }

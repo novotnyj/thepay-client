@@ -31,6 +31,22 @@ class Parameters
 	}
 
 	/**
+	 * @param $name
+	 * @param bool $required
+	 * @return float
+	 */
+	public function getFloat($name, $required = true) {
+		if ($required && !array_key_exists($name, $this->data)) {
+			throw new InvalidArgumentException($name . ' not found.');
+		}
+		if (Validators::isNumeric($this->data[$name])) {
+			return (float) $this->data[$name];
+		} else {
+			throw new \InvalidArgumentException($name . ' is not valid float.');
+		}
+	}
+
+	/**
 	 * @param string $name
 	 * @param bool $required
 	 * @return string

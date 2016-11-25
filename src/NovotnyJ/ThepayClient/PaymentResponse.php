@@ -64,6 +64,10 @@ class PaymentResponse
 		return $this->status === 2;
 	}
 
+	public function isUnderPaid() {
+		return $this->status === 6;
+	}
+
 	/**
 	 * @return bool
 	 */

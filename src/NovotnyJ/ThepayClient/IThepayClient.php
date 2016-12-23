@@ -29,4 +29,10 @@ interface IThepayClient
 	 */
 	public function verifyPayment(PaymentResponse $paymentResponse);
 
+	/**
+	 * @param int $paymentId
+	 * @return PaymentInfo
+	 */
+	public function getPaymentInfo($paymentId);
+
 }

@@ -6,7 +6,6 @@ use GuzzleHttp\Client;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
 use NovotnyJ\ThepayClient\Exceptions\InvalidResponseException;
-use Tracy\Debugger;
 
 class ThepayClient implements IThepayClient
 {
@@ -71,14 +70,7 @@ class ThepayClient implements IThepayClient
 			'accountId' => $this->accountId,
 		];
 
-		$data += ['signature' => $this->createApiSignature($data)];
-
-		$response = $this->client->get(
-			$this->gateUrl . '/api/data/getPaymentMethods/',
-			[
-				'query' => $data,
-			]
-		);
+		$response = $this->getApiResponse('getPaymentMethods', $data);
 
 		if ($response->getStatusCode() !== 200) {
 			throw new InvalidResponseException('Invalid response code: ' . $response->getStatusCode());
@@ -160,6 +152,34 @@ class ThepayClient implements IThepayClient
 	}
 
 	/**
+	 * @param int $paymentId
+	 * @return PaymentInfo
+	 * @throws InvalidResponseException
+	 */
+	public function getPaymentInfo($paymentId)
+	{
+		$data = [
+			'merchantId' => $this->merchantId,
+			'paymentId' => $paymentId,
+		];
+
+		$response = $this->getApiResponse('getPayment', $data);
+
+		if ($response->getStatusCode() !== 200) {
+			throw new InvalidResponseException('Invalid response code: ' . $response->getStatusCode());
+		}
+
+		$stringBody = (string) $response->getBody();
+
+		try {
+			$data = Json::decode($stringBody, true);
+			return new PaymentInfo($data['payment']);
+		} catch (JsonException $e) {
+			throw new InvalidResponseException('Cannot decode response JSON');
+		}
+	}
+
+	/**
 	 * @param PaymentRequest $payment
 	 * @return string[] [key, value]
 	 */
@@ -212,6 +232,23 @@ class ThepayClient implements IThepayClient
 		$string .= '&password=' . $this->apiKey;
 
 		return hash('sha256', $string);
+	}
+
+	/**
+	 * @param string $method
+	 * @param array $data
+	 * @return \Psr\Http\Message\ResponseInterface
+	 */
+	private function getApiResponse($method, array $data)
+	{
+		$data += ['signature' => $this->createApiSignature($data)];
+
+		return $this->client->get(
+			$this->gateUrl . '/api/data/' . $method . '/',
+			[
+				'query' => $data,
+			]
+		);
 	}
 
 }

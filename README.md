@@ -1,5 +1,7 @@
 # Thepay Client
 
+[![CircleCI](https://circleci.com/gh/smartemailing/mailovatko.svg?style=svg&circle-token=88cac417d88e23a809734e224d66c1e93e775ecb)](https://circleci.com/gh/smartemailing/mailovatko)
+
 Unofficial client for ThePay payment gate.
 
 ## Instalation

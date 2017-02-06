@@ -4,7 +4,7 @@ machine:
 
 dependencies:
   pre:
-    composer install --dev
+    - composer install --dev
   cache_directories:
     - ~/.composer/cache
 

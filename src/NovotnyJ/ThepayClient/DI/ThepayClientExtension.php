@@ -3,7 +3,6 @@
 namespace NovotnyJ\ThepayClient\DI;
 
 use Nette\DI\CompilerExtension;
-use Nette\Utils\Validators;
 use NovotnyJ\ThepayClient\Client\IThepayClient;
 use NovotnyJ\ThepayClient\Client\ThepayClient;
 use NovotnyJ\ThepayClient\Utils\Parameters;
@@ -19,7 +18,7 @@ class ThepayClientExtension extends CompilerExtension
 		'accountId' => 1,
 		'secret' => 'my$up3rsecr3tp4$$word',
 		'apiKey' => 'my$up3rsecr3tp4$$word',
-		'gateUrl' => 'https://www.thepay.cz/demo-gate',
+		'demo' => true,
 	];
 
 	public function loadConfiguration()
@@ -27,13 +26,13 @@ class ThepayClientExtension extends CompilerExtension
 		$container = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
 
-		Validators::assertField($config, 'merchantId', 'int');
-		Validators::assertField($config, 'accountId', 'int');
-		Validators::assertField($config, 'secret', 'string');
-		Validators::assertField($config, 'gateUrl', 'string');
-		Validators::assertField($config, 'apiKey', 'string');
-
 		$parameters = new Parameters($config);
+
+		$gateUrl = 'https://www.thepay.cz/demo-gate';
+
+		if ($config['demo'] === false) {
+			$gateUrl = 'https://www.thepay.cz/gate/';
+		}
 
 		$container->addDefinition($this->prefix('thepayClient'))
 			->setClass(IThepayClient::class)
@@ -41,8 +40,8 @@ class ThepayClientExtension extends CompilerExtension
 				'merchantId' => $parameters->getInt('merchantId'),
 				'accountId' => $parameters->getInt('accountId'),
 				'secret' => $parameters->getString('secret'),
-				'gateUrl' => $parameters->getString('gateUrl'),
-				'apiKey' => $parameters->getString('gateUrl'),
+				'gateUrl' => $gateUrl,
+				'apiKey' => $parameters->getString('apiKey'),
 			]);
 	}
 

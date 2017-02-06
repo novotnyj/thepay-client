@@ -50,14 +50,20 @@ class ThepayClient implements IThepayClient
 	 */
 	private $methods;
 
-	public function __construct(int $merchantId, int $accountId, string $secret, string $apiKey, string $gateUrl)
-	{
+	public function __construct(
+		Client $client,
+		int $merchantId,
+		int $accountId,
+		string $secret,
+		string $apiKey,
+		string $gateUrl
+	) {
 		$this->merchantId = $merchantId;
 		$this->accountId = $accountId;
 		$this->secret = $secret;
 		$this->gateUrl = $gateUrl;
 		$this->apiKey = $apiKey;
-		$this->client = new Client();
+		$this->client = $client;
 	}
 
 	/**

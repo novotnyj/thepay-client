@@ -25,6 +25,7 @@ class CreatePaymentTest extends TestCase
 		parent::setUp();
 
 		$this->thepayClient = new ThepayClient(
+			new Client(),
 			1,
 			1,
 			'my$up3rsecr3tp4$$word',

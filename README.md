@@ -17,7 +17,7 @@ thepayClient:
 	accountId: 1
 	secret: 'xxx'
 	apiKey: 'xxx'
-	gateUrl: 'https://www.thepay.cz/demo-gate'
+	demo: false
 ```
 
 ## Create payment

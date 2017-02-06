@@ -2,6 +2,7 @@
 
 namespace NovotnyJ\ThepayClientTest;
 
+use GuzzleHttp\Client;
 use NovotnyJ\ThepayClient\Client\IThepayClient;
 use NovotnyJ\ThepayClient\Client\ThepayClient;
 use NovotnyJ\ThepayClient\Payment\PaymentMethod;
@@ -23,6 +24,7 @@ class GetPaymentMethodsTest extends TestCase
 		parent::setUp();
 
 		$this->thepayClient = new ThepayClient(
+			new Client(),
 			1,
 			1,
 			'my$up3rsecr3tp4$$word',

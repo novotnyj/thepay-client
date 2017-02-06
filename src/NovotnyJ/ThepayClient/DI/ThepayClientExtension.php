@@ -4,8 +4,9 @@ namespace NovotnyJ\ThepayClient\DI;
 
 use Nette\DI\CompilerExtension;
 use Nette\Utils\Validators;
-use NovotnyJ\ThepayClient\IThepayClient;
-use NovotnyJ\ThepayClient\ThepayClient;
+use NovotnyJ\ThepayClient\Client\IThepayClient;
+use NovotnyJ\ThepayClient\Client\ThepayClient;
+use NovotnyJ\ThepayClient\Utils\Parameters;
 
 class ThepayClientExtension extends CompilerExtension
 {
@@ -32,17 +33,17 @@ class ThepayClientExtension extends CompilerExtension
 		Validators::assertField($config, 'gateUrl', 'string');
 		Validators::assertField($config, 'apiKey', 'string');
 
-		if (!empty($config['merchantId']) && !empty($config['accountId']) && ! empty($config['secret'])) {
-			$container->addDefinition($this->prefix('thepayClient'))
-				->setClass(IThepayClient::class)
-				->setFactory(ThepayClient::class, [
-					'merchantId' => $config['merchantId'],
-					'accountId' => $config['accountId'],
-					'secret' => $config['secret'],
-					'gateUrl' => $config['gateUrl'],
-					'apiKey' => $config['apiKey'],
-				]);
-		}
+		$parameters = new Parameters($config);
+
+		$container->addDefinition($this->prefix('thepayClient'))
+			->setClass(IThepayClient::class)
+			->setFactory(ThepayClient::class, [
+				'merchantId' => $parameters->getInt('merchantId'),
+				'accountId' => $parameters->getInt('accountId'),
+				'secret' => $parameters->getString('secret'),
+				'gateUrl' => $parameters->getString('gateUrl'),
+				'apiKey' => $parameters->getString('gateUrl'),
+			]);
 	}
 
 }

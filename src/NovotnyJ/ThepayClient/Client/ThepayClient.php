@@ -1,11 +1,16 @@
 <?php
 
-namespace NovotnyJ\ThepayClient;
+namespace NovotnyJ\ThepayClient\Client;
 
 use GuzzleHttp\Client;
 use Nette\Utils\Json;
 use Nette\Utils\JsonException;
 use NovotnyJ\ThepayClient\Exceptions\InvalidResponseException;
+use NovotnyJ\ThepayClient\Payment\PaymentInfo;
+use NovotnyJ\ThepayClient\Payment\PaymentMethod;
+use NovotnyJ\ThepayClient\Payment\PaymentRequest;
+use NovotnyJ\ThepayClient\Payment\PaymentResponse;
+use Psr\Http\Message\ResponseInterface;
 
 class ThepayClient implements IThepayClient
 {
@@ -45,7 +50,7 @@ class ThepayClient implements IThepayClient
 	 */
 	private $methods;
 
-	public function __construct($merchantId, $accountId, $secret, $apiKey, $gateUrl)
+	public function __construct(int $merchantId, int $accountId, string $secret, string $apiKey, string $gateUrl)
 	{
 		$this->merchantId = $merchantId;
 		$this->accountId = $accountId;
@@ -59,7 +64,7 @@ class ThepayClient implements IThepayClient
 	 * @return PaymentMethod[]
 	 * @throws InvalidResponseException
 	 */
-	public function getPaymentMethods()
+	public function getPaymentMethods() : array
 	{
 		if (!empty($this->methods)) {
 			return $this->methods;
@@ -100,7 +105,7 @@ class ThepayClient implements IThepayClient
 	 * @param PaymentRequest $payment
 	 * @return string
 	 */
-	public function getPaymentUrl(PaymentRequest $payment)
+	public function getPaymentUrl(PaymentRequest $payment) : string
 	{
 		$params = $this->buildQuery($payment);
 		$params['signature'] = $this->createPaymentSignature($payment);
@@ -112,7 +117,7 @@ class ThepayClient implements IThepayClient
 	 * @param string $size
 	 * @return string
 	 */
-	public function getMethodLogoUrl(PaymentMethod $method, $size = '86x86')
+	public function getMethodLogoUrl(PaymentMethod $method, string $size = '86x86') : string
 	{
 		return 'https://www.thepay.cz/gate/images/logos/public/' . $size . '/' . $method->getId() . '.png';
 	}
@@ -121,7 +126,7 @@ class ThepayClient implements IThepayClient
 	 * @param PaymentResponse $paymentResponse
 	 * @return bool
 	 */
-	public function verifyPayment(PaymentResponse $paymentResponse)
+	public function verifyPayment(PaymentResponse $paymentResponse) : bool
 	{
 		if ($paymentResponse->getMerchantId() !== (int) $this->merchantId ||
 			$paymentResponse->getAccountId() !== (int) $this->accountId) {
@@ -156,7 +161,7 @@ class ThepayClient implements IThepayClient
 	 * @return PaymentInfo
 	 * @throws InvalidResponseException
 	 */
-	public function getPaymentInfo($paymentId)
+	public function getPaymentInfo(int $paymentId) : PaymentInfo
 	{
 		$data = [
 			'merchantId' => $this->merchantId,
@@ -183,7 +188,7 @@ class ThepayClient implements IThepayClient
 	 * @param PaymentRequest $payment
 	 * @return string[] [key, value]
 	 */
-	private function buildQuery(PaymentRequest $payment)
+	private function buildQuery(PaymentRequest $payment) : array
 	{
 		$valueKeyPairs = [];
 		$valueKeyPairs['merchantId'] = $this->merchantId;
@@ -202,7 +207,7 @@ class ThepayClient implements IThepayClient
 	 * @param PaymentRequest $payment
 	 * @return string
 	 */
-	private function createPaymentSignature(PaymentRequest $payment)
+	private function createPaymentSignature(PaymentRequest $payment) : string
 	{
 		$query = $this->buildQuery($payment);
 
@@ -220,7 +225,7 @@ class ThepayClient implements IThepayClient
 	 * @param array $data
 	 * @return string
 	 */
-	private function createApiSignature(array $data)
+	private function createApiSignature(array $data) : string
 	{
 		$valueKeyPairs = [];
 
@@ -239,16 +244,12 @@ class ThepayClient implements IThepayClient
 	 * @param array $data
 	 * @return \Psr\Http\Message\ResponseInterface
 	 */
-	private function getApiResponse($method, array $data)
+	private function getApiResponse($method, array $data) : ResponseInterface
 	{
 		$data += ['signature' => $this->createApiSignature($data)];
+		$uri = $this->gateUrl . '/api/data/' . $method . '/';
 
-		return $this->client->get(
-			$this->gateUrl . '/api/data/' . $method . '/',
-			[
-				'query' => $data,
-			]
-		);
+		return $this->client->get($uri, ['query' => $data]);
 	}
 
 }

@@ -2,19 +2,25 @@
     "name": "novotnyj/thepay-client",
     "description": "Client for thepay payment gate.",
     "type": "library",
-    "require-dev": {
-        "nette/tester": "^1.7",
-        "nette/di": "^2.3"
-    },
-    "suggest": {
-        "nette/di": "to use class ThepayClientExtension"
-    },
     "authors": [
         {
             "name": "Jan Novotny",
             "email": "naj.yntovon@gmail.com"
         }
     ],
+    "require": {
+        "php": ">7.0",
+        "guzzlehttp/guzzle": "^6.2",
+        "nette/utils": "~2.4"
+    },
+    "require-dev": {
+        "nette/tester": "^1.7",
+        "nette/di": "^2.4",
+        "phpstan/phpstan": "^0.6.3"
+    },
+    "suggest": {
+        "nette/di": "To use class ThepayClientExtension"
+    },
     "autoload": {
         "psr-0": {
             "NovotnyJ\\ThepayClient\\": "src/"
@@ -22,9 +28,5 @@
 	    "classmap": [
 		    "src/NovotnyJ/ThepayClient/exceptions.php"
 	    ]
-    },
-    "require": {
-        "guzzlehttp/guzzle": "^6.2",
-        "nette/utils": "^2.3"
     }
 }

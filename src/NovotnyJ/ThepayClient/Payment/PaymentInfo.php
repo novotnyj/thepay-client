@@ -1,6 +1,6 @@
 <?php
 
-namespace NovotnyJ\ThepayClient;
+namespace NovotnyJ\ThepayClient\Payment;
 
 use NovotnyJ\ThepayClient\Utils\Parameters;
 
@@ -76,7 +76,7 @@ class PaymentInfo
 	/**
 	 * @return int
 	 */
-	public function getId()
+	public function getId() : int
 	{
 		return $this->id;
 	}
@@ -84,7 +84,7 @@ class PaymentInfo
 	/**
 	 * @return int
 	 */
-	public function getAccount()
+	public function getAccount() : int
 	{
 		return $this->account;
 	}
@@ -92,13 +92,13 @@ class PaymentInfo
 	/**
 	 * @return int
 	 */
-	public function getState()
+	public function getState() : int
 	{
 		return $this->state;
 	}
 
 	/**
-	 * @return mixed
+	 * @return \DateTime|null
 	 */
 	public function getCreated()
 	{
@@ -106,7 +106,7 @@ class PaymentInfo
 	}
 
 	/**
-	 * @return mixed
+	 * @return \DateTime|null
 	 */
 	public function getFinished()
 	{
@@ -114,7 +114,7 @@ class PaymentInfo
 	}
 
 	/**
-	 * @return mixed
+	 * @return \DateTime|null
 	 */
 	public function getCanceled()
 	{
@@ -124,7 +124,7 @@ class PaymentInfo
 	/**
 	 * @return float
 	 */
-	public function getValue()
+	public function getValue() : float
 	{
 		return $this->value;
 	}
@@ -132,7 +132,7 @@ class PaymentInfo
 	/**
 	 * @return float
 	 */
-	public function getReceivedValue()
+	public function getReceivedValue() : float
 	{
 		return $this->receivedValue;
 	}
@@ -148,7 +148,7 @@ class PaymentInfo
 	/**
 	 * @return float
 	 */
-	public function getFee()
+	public function getFee() : float
 	{
 		return $this->fee;
 	}

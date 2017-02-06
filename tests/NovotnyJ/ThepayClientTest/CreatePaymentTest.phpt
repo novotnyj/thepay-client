@@ -3,10 +3,10 @@
 namespace NovotnyJ\ThepayClientTest;
 
 use GuzzleHttp\Client;
-use NovotnyJ\ThepayClient\IThepayClient;
-use NovotnyJ\ThepayClient\PaymentRequest;
-use NovotnyJ\ThepayClient\PaymentMethod;
-use NovotnyJ\ThepayClient\ThepayClient;
+use NovotnyJ\ThepayClient\Client\IThepayClient;
+use NovotnyJ\ThepayClient\Client\ThepayClient;
+use NovotnyJ\ThepayClient\Payment\PaymentMethod;
+use NovotnyJ\ThepayClient\Payment\PaymentRequest;
 use Tester\Assert;
 use Tester\TestCase;
 
@@ -39,11 +39,7 @@ class CreatePaymentTest extends TestCase
 		/** @var PaymentMethod $method */
 		$method = $methods[0];
 
-		$payment = new PaymentRequest(
-			$method->getId(),
-			10,
-			'http://test.com/'
-		);
+		$payment = new PaymentRequest($method->getId(), 10.00, 'http://test.com/');
 		$payment->setMerchantData('test data');
 		$payment->setDescription('test description');
 
@@ -52,7 +48,7 @@ class CreatePaymentTest extends TestCase
 		$httpClient = new Client();
 		$response = $httpClient->get($url);
 
-		Assert::equal(200, $response->getStatusCode());
+		Assert::same(200, $response->getStatusCode());
 	}
 
 }

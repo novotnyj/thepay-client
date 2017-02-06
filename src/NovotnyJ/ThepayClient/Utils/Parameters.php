@@ -23,7 +23,7 @@ class Parameters
 	 * @param bool $required
 	 * @return int
 	 */
-	public function getInt($name, $required = true) {
+	public function getInt(string $name, bool $required = true) : int {
 		if ($required && !$this->has($name)) {
 			throw new InvalidArgumentException($name . ' not found.');
 		}
@@ -39,7 +39,7 @@ class Parameters
 	 * @param bool $required
 	 * @return float
 	 */
-	public function getFloat($name, $required = true) {
+	public function getFloat(string $name, bool $required = true) : float {
 		if ($required && !$this->has($name)) {
 			throw new InvalidArgumentException($name . ' not found.');
 		}
@@ -55,7 +55,7 @@ class Parameters
 	 * @param bool $required
 	 * @return string
 	 */
-	public function getString($name, $required = true) {
+	public function getString(string $name, bool $required = true) : string {
 		if ($required && !$this->has($name)) {
 			throw new InvalidArgumentException($name . ' not found');
 		}
@@ -71,7 +71,7 @@ class Parameters
 	 * @param bool $required
 	 * @return \DateTime|null
 	 */
-	public function getDateTimeOrNull($name, $required = false)
+	public function getDateTimeOrNull(string $name, bool $required = false)
 	{
 		if ($required && !$this->has($name)) {
 			throw new InvalidArgumentException($name . ' not found');
@@ -91,7 +91,11 @@ class Parameters
 		}
 	}
 
-	public function has($name) {
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function has(string $name) : bool {
 		return array_key_exists($name, $this->data);
 	}
 

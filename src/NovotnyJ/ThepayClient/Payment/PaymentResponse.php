@@ -1,6 +1,6 @@
 <?php
 
-namespace NovotnyJ\ThepayClient;
+namespace NovotnyJ\ThepayClient\Payment;
 
 use NovotnyJ\ThepayClient\Utils\Parameters;
 
@@ -58,7 +58,7 @@ class PaymentResponse
 		$this->signature = $parameters->getString('signature');
 		$this->paymentId = $parameters->getInt('paymentId');
 		$this->value = $parameters->getFloat('value');
-		if (array_key_exists('merchantData', $data)) {
+		if ($parameters->has('merchantData')) {
 			$this->merchantData = $parameters->getString('merchantData');
 		}
 	}
@@ -66,39 +66,45 @@ class PaymentResponse
 	/**
 	 * @return bool
 	 */
-	public function isPaid() {
-		return $this->status === 2;
-	}
-
-	public function isUnderPaid() {
-		return $this->status === 6;
+	public function isPaid() : bool {
+		return $this->status === PaymentStatus::PAID;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isCancelled() {
-		return $this->status === 3;
+	public function isUnderPaid() : bool {
+		return $this->status === PaymentStatus::UNDERPAID;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isWaiting() {
-		return $this->status === 7;
+	public function isCancelled() : bool
+	{
+		return $this->status === PaymentStatus::CANCELLED;
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function isError() {
-		return $this->status === 4;
+	public function isWaiting() : bool
+	{
+		return $this->status === PaymentStatus::WAITING;
 	}
 
 	/**
-	 * @return mixed
+	 * @return bool
 	 */
-	public function getSignature()
+	public function isError() : bool
+	{
+		return $this->status === PaymentStatus::ERROR;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSignature() : string
 	{
 		return $this->signature;
 	}
@@ -106,7 +112,7 @@ class PaymentResponse
 	/**
 	 * @return int
 	 */
-	public function getAccountId()
+	public function getAccountId() : int
 	{
 		return $this->accountId;
 	}
@@ -114,7 +120,7 @@ class PaymentResponse
 	/**
 	 * @return int
 	 */
-	public function getMerchantId()
+	public function getMerchantId() : int
 	{
 		return $this->merchantId;
 	}
@@ -122,7 +128,7 @@ class PaymentResponse
 	/**
 	 * @return int
 	 */
-	public function getStatus()
+	public function getStatus() : int
 	{
 		return $this->status;
 	}
@@ -130,7 +136,7 @@ class PaymentResponse
 	/**
 	 * @return int
 	 */
-	public function getPaymentId()
+	public function getPaymentId() : int
 	{
 		return $this->paymentId;
 	}
@@ -146,7 +152,7 @@ class PaymentResponse
 	/**
 	 * @return array
 	 */
-	public function getQueryData()
+	public function getQueryData() : array
 	{
 		return $this->data;
 	}
@@ -154,7 +160,7 @@ class PaymentResponse
 	/**
 	 * @return float
 	 */
-	public function getValue()
+	public function getValue() : float
 	{
 		return $this->value;
 	}

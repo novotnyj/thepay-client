@@ -1,6 +1,9 @@
 <?php
 
-namespace NovotnyJ\ThepayClient;
+namespace NovotnyJ\ThepayClient\Payment;
+
+use Nette\Utils\Validators;
+use NovotnyJ\ThepayClient\Exceptions\InvalidArgumentException;
 
 class PaymentRequest
 {
@@ -38,51 +41,57 @@ class PaymentRequest
 	/**
 	 * @var null|string
 	 */
-	private $backToEshopUrl = null;
+	private $backToEshopUrl;
 
 	public function __construct(
-		$methodId,
-		$value,
-		$returnUrl
+		int $methodId,
+		float $value,
+		string $returnUrl
 	) {
 		$this->methodId = $methodId;
 		$this->value = $value;
+		if (!Validators::isUrl($returnUrl)) {
+			throw new InvalidArgumentException($returnUrl . ' is not valid URL');
+		}
 		$this->returnUrl = $returnUrl;
 	}
 
 	/**
 	 * @param string $backToEshopUrl
 	 */
-	public function setBackToEshopUrl($backToEshopUrl)
+	public function setBackToEshopUrl(string $backToEshopUrl)
 	{
+		if (!Validators::isUrl($backToEshopUrl)) {
+			throw new InvalidArgumentException($backToEshopUrl . ' is not valid URL');
+		}
 		$this->backToEshopUrl = $backToEshopUrl;
 	}
 
 	/**
 	 * @param string $merchantData
 	 */
-	public function setMerchantData($merchantData)
+	public function setMerchantData(string $merchantData)
 	{
 		$this->merchantData = $merchantData;
 	}
 
 	/**
-	 * @param null|string $description
+	 * @param string $description
 	 */
-	public function setDescription($description)
+	public function setDescription(string $description)
 	{
 		$this->description = $description;
 	}
 
 	/**
-	 * @param null|string $customerData
+	 * @param string $customerData
 	 */
-	public function setCustomerData($customerData)
+	public function setCustomerData(string $customerData)
 	{
 		$this->customerData = $customerData;
 	}
 
-	public function toArray()
+	public function toArray() : array
 	{
 		return [
 			'value' => $this->value,

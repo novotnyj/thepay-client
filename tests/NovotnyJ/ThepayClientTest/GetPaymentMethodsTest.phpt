@@ -2,9 +2,9 @@
 
 namespace NovotnyJ\ThepayClientTest;
 
-use NovotnyJ\ThepayClient\IThepayClient;
-use NovotnyJ\ThepayClient\PaymentMethod;
-use NovotnyJ\ThepayClient\ThepayClient;
+use NovotnyJ\ThepayClient\Client\IThepayClient;
+use NovotnyJ\ThepayClient\Client\ThepayClient;
+use NovotnyJ\ThepayClient\Payment\PaymentMethod;
 use Tester\Assert;
 use Tester\TestCase;
 

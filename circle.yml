@@ -1,0 +1,14 @@
+machine:
+  php:
+    version: 7.0.4
+
+dependencies:
+  pre:
+    composer install --dev
+  cache_directories:
+    - ~/.composer/cache
+
+test:
+  override:
+    - vendor/bin/phpstan analyse src
+    - vendor/bin/tester tests

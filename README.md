@@ -31,7 +31,7 @@ $payment->setBackToEshopUrl('http://my-super-shop.com/');
 $url = $this->thepayClient->getPaymentUrl($payment);
 ```
 
-Now redirect your customer payment gate on `$url`.
+Now redirect your customer to the payment gate on `$url`.
 
 ## Process payment response
 
